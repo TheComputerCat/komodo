@@ -1,3 +1,5 @@
+name: Release
+
 on:
   workflow_dispatch:
 
@@ -5,7 +7,12 @@ permissions:
   contents: write
 
 jobs:
+  ci:
+    uses: ./.github/workflows/core-ci.yml
+
   version:
+    needs: ci
+    if: success()
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.get_version.outputs.version }}
@@ -18,7 +25,8 @@ jobs:
           echo "version=v$VERSION" >> $GITHUB_OUTPUT
 
   build:
-    needs: version
+    needs: [ci, version]
+    if: success()
     strategy:
       matrix:
         include:
