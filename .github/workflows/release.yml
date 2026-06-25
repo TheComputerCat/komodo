@@ -49,7 +49,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: komodo-${{ matrix.target }}
-          path: core/target/${{ matrix.target }}/release/komodo
+          path: core/target/${{ matrix.target }}/release/komodo-${{ matrix.target }}
 
   release:
     needs: [version, build]
