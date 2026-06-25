@@ -44,6 +44,10 @@ jobs:
         with:
           targets: ${{ matrix.target }}
       - run: cargo build --all-features --release --target ${{ matrix.target }}
+      - name: Smoke test
+        run: |
+          echo 'println("Smoke test!")' > /tmp/test.komodo
+          target/${{ matrix.target }}/release/komodo /tmp/test.komodo
       - name: Rename binary
         run: mv target/${{ matrix.target }}/release/komodo target/${{ matrix.target }}/release/komodo-${{ matrix.target }}
       - uses: actions/upload-artifact@v4
