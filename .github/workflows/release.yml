@@ -35,6 +35,9 @@ jobs:
           - os: macos-latest
             target: aarch64-apple-darwin
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ./core
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
