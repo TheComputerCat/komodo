@@ -14,14 +14,18 @@ jobs:
     needs: ci
     if: success()
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./core
     outputs:
       version: ${{ steps.get_version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
       - name: Get version from Cargo.toml
         id: get_version
         run: |
-          VERSION=$(grep '^version' core/Cargo.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
+          VERSION=$(cargo pkgid | cut -d "@" -f2)
           echo "version=v$VERSION" >> $GITHUB_OUTPUT
 
   build:
